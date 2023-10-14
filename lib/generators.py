@@ -32,8 +32,9 @@ class SequenceDataGenerator(keras.utils.Sequence):
             if not image_files: continue
             for stride in range(self._STRIDE_KERNEL):
                 strided.append(image_files[stride::self._STRIDE_KERNEL])
-        self._len = int(len(strided)/self._BATCH_SIZE)
-        self._batches = [ strided[b:b+self._BATCH_SIZE] for b in range(self._len) ]
+
+        self._batches = [ strided[b:b+self._BATCH_SIZE] for b in range(0, len(strided), self._BATCH_SIZE) ]
+        self._len = len(self._batches)
 
     def __load__(self, ):
         self._sequences = sorted([ f'{self._data_path}{data_folder}/' for data_folder in os.listdir(self._data_path) ])
