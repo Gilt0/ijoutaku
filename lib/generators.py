@@ -47,6 +47,7 @@ class SequenceDataGenerator(keras.utils.Sequence):
         X = np.zeros((self._BATCH_SIZE, int(self._SEQUENCE_SIZE/self._STRIDE_KERNEL), self._IMAGE_HEIGHT, self._IMAGE_WIDTH, 1), dtype=np.float16)
         batch = self._batches[index]
         for b, image_paths in enumerate(batch):
+            print(image_paths[0])
             for t, image_path in enumerate(image_paths):
                 image = np.array(pil.Image.open(image_path).resize((self._IMAGE_WIDTH, self._IMAGE_HEIGHT)), dtype=np.float16)/256
                 X[b, t, :, :, 0] = image
@@ -99,6 +100,7 @@ class ForwardDataGenerator(keras.utils.Sequence):
         y = np.zeros((self._BATCH_SIZE, self._IMAGE_HEIGHT, self._IMAGE_WIDTH, 1), dtype=np.float16)
         batch = self._batches[index]
         for b, (predictors, predicted) in enumerate(batch):
+            print(predictors[0])
             for l, predictor in enumerate(predictors):
                 X[b, l, :, :, 0] = np.array(pil.Image.open(predictor).resize((self._IMAGE_WIDTH, self._IMAGE_HEIGHT)), dtype=np.float16)/256
             y[b, :, :, 0] = np.array(pil.Image.open(predicted).resize((self._IMAGE_WIDTH, self._IMAGE_HEIGHT)), dtype=np.float16)/256
